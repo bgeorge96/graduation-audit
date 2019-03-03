@@ -75,7 +75,7 @@
 )
 
 (defun check-required-classes (takenclasses required-courses)
-
+  
 )
 
 (defun compare-degree (courses degree-requirements)
