@@ -5,7 +5,7 @@
 ;  (plan course course course))
 
 (setf Adam '((transcript (COS102 A-) (COS109 A) (COS120 B) (COS121 B+)
-  (COS143 A-) (COS243 B+) (COS265 B) (COS284 B-) (MAT151 A-) (MAT210 B))
+  (COS143 A-) (COS243 B+) (COS265 B) (COS284 B-) (MAT151 A-) (MAT240 D) (MAT210 B))
  (plan COS492 COS493 COS280 COS331 COS340 COS350 SYS214 SYS411 MAT215) )
 )
 
@@ -46,23 +46,85 @@
 (defun transcript-class (courses)
   (if (null courses)
     ()
-    (
-      ; if grade is good
-      ; true case
-      cons (caar courses) (transcript-class (cdr courses)))
-      ;false case
-      ; (transcript-class (cdr courses))
+    (if (member (cadar courses) '(a+ a a- b+ b b- c c-))
+        (cons (caar courses) (transcript-class (cdr courses)))
+        (transcript-class (cdr courses))
+    )
   )
 )
 
-; for checking the grade
-; (member grade '(A A- B+ B B-))
+;Check if there is C- in the score
+(defun check_bad(trans)
+  ;(format t "chech1~%")
+  (if (null (car trans))
+      ; (format t "Person is empty ~%")
+      (cond ((equal '(A+) (cdar trans))
+             (progn
+               ; (format t "A+ ~%")
+               t
+               ;(check_bad (cdr trans))
+             ))
+            ((equal '(A) (cdar trans))
+             (progn
+               ; (format t "A ~%")
+               t
+               ;(check_bad (cdr trans))
+             ))
+            ((equal '(A-) (cdar trans))
+             (progn
+               ; (format t "A- ~%")
+               t
+               ;(check_bad (cdr trans))
+               ))
+            ((equal '(B+) (cdar trans))
+             (progn
+               ; (format t "B+ ~%")
+               t
+               ;(check_bad (cdr trans))
+               ))
+            ((equal '(B) (cdar trans))
+             (progn
+               ; (format t "B ~%")
+               t
+               ;(check_bad (cdr trans))
+               ))
+            ((equal '(B-) (cdar trans))
+             (progn
+               ; (format t "B- ~%")
+               t
+               ;(check_bad (cdr trans))
+               ))
+            ((equal '(C+) (cdar trans))
+             (progn
+               ; (format t "C+ ~%")
+               t
+               ;(check_bad (cdr trans))
+               ))
+            ((equal '(C) (cdar trans))
+             (progn
+               ; (format t "C ~%")
+               t
+               ;(check_bad (cdr trans))
+               ))
+            ((equal '(C-) (cdar trans))
+             (progn
+                 ; (format t "C- ~%")
+                 t
+                 ;(check_bad (cdr trans))
+                 ))
+              (t nil)
+         )
+     )
+  )
 
-; This will return a list of the classes that a student has taken or is planning
-; to take
-(defun classes (person)
+  ; for checking the grade
+  ; (member grade '(A A- B+ B B-))
+
+  ; This will return a list of the classes that a student has taken or is planning
+  ; to take
+  (defun classes (person)
   (append (transcript-class (cdar person)) (cdadr person))
-)
+  )
 
 ; This will take a course like and accumulate the give course hours in the catalog
 (defun checkcatalog (takenclasses catalog)
@@ -75,7 +137,7 @@
 )
 
 (defun check-required-classes (takenclasses required-courses)
-  
+
 )
 
 (defun compare-degree (courses degree-requirements)
@@ -94,8 +156,9 @@
       ; (format t "degree-requirements: ~A~%~%" degree-requirements)
       ; (format t "catalog: ~A~%~%" catalog)
       ; (format t "personCourses: ~A~%~%" personCourses)
-      (compare-degree personCourses degree-requirements)
+      ; (compare-degree personCourses degree-requirements)
       (checkcatalog personCourses catalog)
     )
+    ; (if (completed? enough course, hours)
   )
 )
