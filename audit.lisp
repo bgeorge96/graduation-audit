@@ -46,9 +46,17 @@
 (defun transcript-class (courses)
   (if (null courses)
     ()
-    (cons (caar courses) (transcript-class (cdr courses)))
+    (
+      ; if grade is good
+      ; true case
+      cons (caar courses) (transcript-class (cdr courses)))
+      ;false case
+      ; (transcript-class (cdr courses))
   )
 )
+
+; for checking the grade
+; (member grade '(A A- B+ B B-))
 
 ; This will return a list of the classes that a student has taken or is planning
 ; to take
@@ -64,14 +72,30 @@
       (+ (cadar courseFound) (checkcatalog (cdr takenclasses) catalog))
     )
   )
+)
+
+(defun check-required-classes (takenclasses required-courses)
 
 )
 
-(defun grad-check (person degree-requirements catalog)
+(defun compare-degree (courses degree-requirements)
   (progn
-    ; (format t "Person: ~A~%~%" person)
-    ; (format t "degree-requirements: ~A~%~%" degree-requirements)
-    ; (format t "catalog: ~A~%~%" catalog)
-    (checkcatalog (classes adam) catalog)
+    ; (format t "courses: ~A~%" courses)
+    ; (format t "degree-requirements: ~A~%" degree-requirements)
+    (format t "requirements: ~A~%" (cdadr degree-requirements))
+
+  )
+)
+
+(defun grad-check (person degree-requirements catalog)
+  (let ((personCourses (classes person)))
+    (progn
+      ; (format t "Person: ~A~%~%" person)
+      ; (format t "degree-requirements: ~A~%~%" degree-requirements)
+      ; (format t "catalog: ~A~%~%" catalog)
+      ; (format t "personCourses: ~A~%~%" personCourses)
+      (compare-degree personCourses degree-requirements)
+      (checkcatalog personCourses catalog)
+    )
   )
 )
