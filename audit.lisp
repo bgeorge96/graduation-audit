@@ -50,7 +50,7 @@
     ()
     (if (check_bad courses)
         (progn
-        (format t "~A ~%" courses)
+        ;(format t "~A ~%" courses)
         (cons (caar courses) (transcript-class (cdr courses))))
         (transcript-class (cdr courses))
     )
