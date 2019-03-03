@@ -132,7 +132,7 @@
 ; (append (transcript-class (cdar person)) (cdadr person))
 ;)
 
-#|(defun grad-check (person degree-requirements catalog)
+(defun grad-check (person degree-requirements catalog)
   (progn
     (member (dolist trans) (cadr degree-reqs)
 	
@@ -144,4 +144,3 @@
     (classes adam)
   )
 )
-|#
