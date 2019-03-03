@@ -4,10 +4,12 @@
 ; ((transcript (course grade) (course grade))
 ;  (plan course course course))
 
-(setf Adam '((transcript (COS102 A-) (COS109 A) (COS120 B) (COS121 B+)
+(setf Adam 
+ '((transcript (COS102 A-) (COS109 A) (COS120 B) (COS121 B+)
   (COS143 A-) (COS243 B+) (COS265 B) (COS284 B-) (MAT151 A-) (MAT210 B))
- (plan COS492 COS493 COS280 COS331 COS340 COS350 SYS214 SYS411 MAT215) )
+  (plan COS492 COS493 COS280 COS331 COS340 COS350 SYS214 SYS411 MAT215) )
 )
+
 
 ; a degree requirements list should look like below
 ; ((major-hours 40)
@@ -46,21 +48,100 @@
 (defun transcript-class (courses)
   (if (null courses)
     ()
-    (cons (caar courses) (transcript-class (cdr courses)))
+    (if (check_bad courses)
+        (progn
+        (format t "~A ~%" courses)
+        (cons (caar courses) (transcript-class (cdr courses))))
+        (transcript-class (cdr courses))
+    )
   )
+)
+
+
+(defun Trans(person)
+  (defparameter *trans* (cdar person)) 
+)
+
+;Check if there is C- in the score
+(defun check_bad(trans) 
+  ;(format t "chech1~%")
+  (if (null (car trans))
+      (format t "Person is empty ~%")
+      (cond ((equal '(A+) (cdar trans)) 
+             (progn 
+               (format t "A+ ~%")
+               t
+               ;(check_bad (cdr trans))
+             ))
+            ((equal '(A) (cdar trans)) 
+             (progn 
+               (format t "A ~%")
+               t
+               ;(check_bad (cdr trans))
+             ))
+            ((equal '(A-) (cdar trans)) 
+             (progn 
+               (format t "A- ~%")
+               t
+               ;(check_bad (cdr trans))
+               ))
+            ((equal '(B+) (cdar trans)) 
+             (progn 
+               (format t "B+ ~%")
+               t
+               ;(check_bad (cdr trans))
+               ))
+            ((equal '(B) (cdar trans)) 
+             (progn
+               (format t "B ~%")
+               t
+               ;(check_bad (cdr trans))
+               ))
+            ((equal '(B-) (cdar trans)) 
+             (progn 
+               (format t "B- ~%")
+               t
+               ;(check_bad (cdr trans))
+               ))
+            ((equal '(C+) (cdar trans)) 
+             (progn 
+               (format t "C+ ~%")
+               t
+               ;(check_bad (cdr trans))
+               ))
+            ((equal '(C) (cdar trans)) 
+             (progn 
+               (format t "C ~%")
+               t
+               ;(check_bad (cdr trans))
+               ))
+            ((equal '(C-) (cdar trans)) 
+             (progn 
+               (format t "C- ~%")
+               t
+               ;(check_bad (cdr trans))
+               ))
+            (t nil)      
+       ) 
+   )
 )
 
 ; This will return a list of the classes that a student has taken or is planning
 ; to take
-(defun classes (person)
-  (append (transcript-class (cdar person)) (cdadr person))
-)
+;(defun classes (person)
+; (append (transcript-class (cdar person)) (cdadr person))
+;)
 
-(defun grad-check (person degree-requirements catalog)
+#|(defun grad-check (person degree-requirements catalog)
   (progn
+    (member (dolist trans) (cadr degree-reqs)
+	
+
+    )
     ; (format t "Person: ~A~%~%" person)
     ; (format t "degree-requirements: ~A~%~%" degree-requirements)
     ; (format t "catalog: ~A~%~%" catalog)
     (classes adam)
   )
 )
+|#
