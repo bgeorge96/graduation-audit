@@ -131,6 +131,7 @@
   (append (transcript-class (cdar person)) (cdadr person))
   )
 
+
 ; This will take a course like and accumulate the give course hours in the catalog
 (defun checkcatalog (takenclasses catalog)
   (let ((courseFound (member (car takenclasses) catalog :key #'car)))
@@ -175,11 +176,13 @@
   (let ((personCourses (classes person)))
     (let ((reqs-left (compare-degree personCourses degree-requirements))
               (hours-left (checkcatalog personCourses catalog)))
-      ; (format t "Person: ~A~%~%" person)
-      ; (format t "degree-requirements: ~A~%~%" degree-requirements)
-      ; (format t "catalog: ~A~%~%" catalog)
-      (format t "personCourses: ~A~%~%" personCourses)
-      (format t "reqs-left: ~A~%hours-left:~A~%" reqs-left hours-left)
+      (if (and (<= (cadar degree-reqs) hours-left) (null reqs-left))
+        t
+        (progn
+          (format t "reqs-left: ~A~%hours-left:~A~%" reqs-left hours-left)
+          nil
+        )
+      )
     ; (if (completed? enough course, hours)
     )
   )
