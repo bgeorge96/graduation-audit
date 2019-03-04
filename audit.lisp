@@ -58,73 +58,6 @@
   )
 )
 
-;Check if there is C- in the score
-(defun check_bad(trans)
-  ;(format t "chech1~%")
-  (if (null (car trans))
-      ; (format t "Person is empty ~%")
-      (cond ((equal '(A+) (cdar trans))
-             (progn
-               ; (format t "A+ ~%")
-               t
-               ;(check_bad (cdr trans))
-             ))
-            ((equal '(A) (cdar trans))
-             (progn
-               ; (format t "A ~%")
-               t
-               ;(check_bad (cdr trans))
-             ))
-            ((equal '(A-) (cdar trans))
-             (progn
-               ; (format t "A- ~%")
-               t
-               ;(check_bad (cdr trans))
-               ))
-            ((equal '(B+) (cdar trans))
-             (progn
-               ; (format t "B+ ~%")
-               t
-               ;(check_bad (cdr trans))
-               ))
-            ((equal '(B) (cdar trans))
-             (progn
-               ; (format t "B ~%")
-               t
-               ;(check_bad (cdr trans))
-               ))
-            ((equal '(B-) (cdar trans))
-             (progn
-               ; (format t "B- ~%")
-               t
-               ;(check_bad (cdr trans))
-               ))
-            ((equal '(C+) (cdar trans))
-             (progn
-               ; (format t "C+ ~%")
-               t
-               ;(check_bad (cdr trans))
-               ))
-            ((equal '(C) (cdar trans))
-             (progn
-               ; (format t "C ~%")
-               t
-               ;(check_bad (cdr trans))
-               ))
-            ((equal '(C-) (cdar trans))
-             (progn
-                 ; (format t "C- ~%")
-                 t
-                 ;(check_bad (cdr trans))
-                 ))
-              (t nil)
-         )
-     )
-  )
-
-  ; for checking the grade
-  ; (member grade '(A A- B+ B B-))
-
   ; This will return a list of the classes that a student has taken or is planning
   ; to take
   (defun classes (person)
@@ -166,9 +99,6 @@
 )
 
 (defun compare-degree (courses degree-requirements)
-  ; (format t "courses: ~A~%" courses)
-  ; (format t "degree-requirements: ~A~%" degree-requirements)
-  ; (format t "requirements: ~A~%" )
   (check-required-classes courses (cdadr degree-requirements))
 )
 
@@ -183,7 +113,6 @@
           nil
         )
       )
-    ; (if (completed? enough course, hours)
     )
   )
 )
