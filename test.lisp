@@ -108,7 +108,6 @@
           nil
         )
       )
-    ; (if (completed? enough course, hours)
     )
   )
 )
