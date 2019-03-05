@@ -4,16 +4,6 @@
 ; ((transcript (course grade) (course grade))
 ;  (plan course course course))
 (load "grad-audit-data.lsp")
-(setf Adam '((transcript (COS102 A-) (COS109 A) (COS120 B) (COS121 B+)
-  (COS143 A-) (COS243 B+) (COS265 B) (COS284 B-) (MAT151 A-) (MAT240 D) (MAT210 B))
- (plan COS492 COS493 COS280 COS331 COS340 COS350 SYS214 SYS411 MAT215) )
-)
-
-(setf Eve '((transcript (COS102 A-) (COS109 A) (COS120 B) (COS121 B+)
-  (COS143 A-) (COS243 B+) (COS265 B) (COS284 B-) (MAT151 A-) (MAT240 D) (MAT210 B))
- (plan COS492 COS493 COS280 COS331 COS340 COS350 SYS214 SYS411 MAT215 COS450 COS321 COS435) )
-)
-
 ; a degree requirements list should look like below
 ; ((major-hours 40)
 ;   (required course1 course2 ... (or course other-course))
@@ -58,13 +48,14 @@
   )
 )
 
-
+;Get a list of all the class in transcript and plan together
 (defun classes (person)
   (append (transcript-class (cdar person)) (cdadr person))
   )
 
 
 ; This will take a course like and accumulate the give course hours in the catalog
+;missing check if there is any under C- courses before plus them together.
 (defun checkcatalog (takenclasses catalog)
   (let ((courseFound (member (car takenclasses) catalog :key #'car)))
     (if (null courseFound)
@@ -98,20 +89,22 @@
 )
 
 (defun compare-degree (courses degree-requirements)
-  ; (format t "courses: ~A~%" courses)
-  ; (format t "degree-requirements: ~A~%" degree-requirements)
+   ;(format t "courses: ~A~%" courses)
+   ;(format t "degree-requirements: ~A~%" degree-requirements)
   ; (format t "requirements: ~A~%" )
   (check-required-classes courses (cdadr degree-requirements))
 )
 
-(defun grad-check (person degree-requirements catalog)
-  (let ((personCourses (classes person)))
+(defun grad-check (catalog person degree-requirements)
+  (let ((personCourses (classes person)));take all the transcript and plan courses
     (let ((reqs-left (compare-degree personCourses degree-requirements))
-              (hours-left (checkcatalog personCourses catalog)))
+              (hours-left (checkcatalog personCourses catalog)));total hours of
       (if (and (<= (cadar ba-grad-requirements) hours-left) (null reqs-left))
-        (format t "Pass ~%")
+        (format t "Pass ~%EXTRA-HOURS: ~A~%" (- hours-left (cadar ba-grad-requirements)))
+        ;(format t "EXTRA-HOURS- ~A~%" (- hours-left (cadar ba-grad-requirements)))
         (progn
-          (format t "reqs-left: ~A~%hours-left:~A~%" reqs-left hours-left)
+          (format t "Fail~%")
+          (format t "reqs-left: ~A~%EXTRA-HOURS:~A~%" reqs-left (- hours-left (cadar ba-grad-requirements)))
           nil
         )
       )
