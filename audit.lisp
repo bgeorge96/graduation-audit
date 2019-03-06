@@ -1,4 +1,5 @@
 ; Brandon George and Qiang Wang
+(load "grad-audit-data.lsp")
 
 ; A student is represented like this below
 ; ((transcript (course grade) (course grade))
@@ -37,7 +38,7 @@
 ; A catalog is like below
 ; ((course hours) (course hours) ...)
 
-(setf Catalog '((COS102 3) (COS104 2) (COS109 3) (COS120 4) (COS121 4) (COS130 3) (COS143 3) (COS170 3)
+(setf Catalog? '((COS102 3) (COS104 2) (COS109 3) (COS120 4) (COS121 4) (COS130 3) (COS143 3) (COS170 3)
  (COS232 3) (COS243 3) (COS265 3) (COS270 3) (COS331 3) (COS280 3) (COS284 3)
  (COS310 1) (COS311 3) (COS321 3) (COS320 3) (COS323 3) (COS333 3) (COS340 3) (COS343 3)
  (COS350 3) (COS351 3) (COS355 3) (COS360 3) (COS370 3) (COS380 3) (COS381 3) (COS382 3) (COS393 3) (COS394 3)
@@ -105,13 +106,10 @@
 (defun grad-check (person degree-requirements catalog)
   (let ((personCourses (classes person)))
     (let ((reqs-left (compare-degree personCourses degree-requirements))
-              (hours-left (checkcatalog personCourses catalog)))
-      (if (and (<= (cadar degree-reqs) hours-left) (null reqs-left))
-        t
-        (progn
-          (format t "reqs-left: ~A~%hours-left:~A~%" reqs-left hours-left)
-          nil
-        )
+              (hours-left (- (checkcatalog personCourses catalog) (cadar degree-reqs))))
+      (if (and (<= 0 hours-left) (null reqs-left))
+        (values 'PASS  (list reqs-left 'EXTRA-HOURS hours-left))
+        (values 'FAIL (list reqs-left 'EXTRA-HOURS hours-left))
       )
     )
   )

@@ -3,7 +3,6 @@
 ; A student is represented like this below
 ; ((transcript (course grade) (course grade))
 ;  (plan course course course))
-(load "grad-audit-data.lsp")
 ; a degree requirements list should look like below
 ; ((major-hours 40)
 ;   (required course1 course2 ... (or course other-course))
